@@ -21,7 +21,7 @@ def api_sms():
         if not mailer.try_send_email(destination_address, sender, body):
             return render_template("sms_error.xml")
 
-        return render_template("sms_success.xml")
+        return render_template("sms_success.xml", destination=destination_address)
     
     return "HTHT"
 
