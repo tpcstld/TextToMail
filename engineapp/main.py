@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/sms', methods=['GET', 'POST'])
 def api_sms():
     if request.method == 'POST':
-        return render_template("sms.xml", message=request.values.get("body", "Nothing"))
+        return render_template("sms.xml", message=request.values.get("Body", "Nothing"))
     
     return "HTHT"
 
