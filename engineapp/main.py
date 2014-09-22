@@ -1,10 +1,17 @@
 from flask import Flask
 from flask import request
+from flask import render_template
 app = Flask(__name__)
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
 
+@app.route('/sms', methods=['GET', 'POST'])
+def api_sms():
+    if request.method == 'POST':
+        return render_template("sms.xml", message=request.values.get("body", "Nothing"))
+    
+    return "HTHT"
 
 @app.route('/')
 def test():
