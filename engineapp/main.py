@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+import mailer
 app = Flask(__name__)
 
 # Note: We don't need to call run() since our application is embedded within
@@ -9,7 +10,14 @@ app = Flask(__name__)
 @app.route('/sms', methods=['GET', 'POST'])
 def api_sms():
     if request.method == 'POST':
-        return render_template("sms.xml", message=request.values.get("Body", "Nothing"))
+        body = request.values.get("Body", None)
+        if body is None:
+            return render_template("sms_error.xml")
+        
+        if not mailer.try_send_email("jerryjiang1128@gmail.com", body):
+            return render_template("sms_error.xml")
+
+        return render_template("sms_success.xml")
     
     return "HTHT"
 
