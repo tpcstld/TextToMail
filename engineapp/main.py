@@ -10,12 +10,15 @@ app = Flask(__name__)
 @app.route('/sms', methods=['GET', 'POST'])
 def api_sms():
     if request.method == 'POST':
-        body = request.values.get("Body", None)
+        sms_message = request.values.get("Body", None)
         sender = request.values.get("From", None)
-        if body is None or sender is None:
+        if sms_message is None or sender is None:
             return render_template("sms_error.xml")
-        
-        if not mailer.try_send_email("jerryjiang1128@gmail.com",sender, body):
+        try:
+            destination_address, body = sms_message.split(' ', 1)
+        except:
+            return render_template("sms_error.xml")
+        if not mailer.try_send_email(destination_address, sender, body):
             return render_template("sms_error.xml")
 
         return render_template("sms_success.xml")

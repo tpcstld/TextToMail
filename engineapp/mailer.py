@@ -3,6 +3,9 @@ import logging
 import traceback
 
 def try_send_email(destination_address, sender, email_body):
+    if destination_address is None or sender is None or email_body is None:
+        return False
+    
     try:
         if not mail.is_email_valid(destination_address):
             return False
