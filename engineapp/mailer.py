@@ -3,18 +3,18 @@ import logging
 import traceback
 
 def try_send_email(destination_address, sender, email_body):
-    if destination_address is None or sender is None or email_body is None:
-        return False
+    if email_body.isspace():
+        return "Empty Email Body"
     
     try:
-        if not mail.is_email_valid(destination_address):
-            return False
+        if not "@" in destination_address:
+            return "Invalid Destination Address \"" + destination_address +"\""
         
-        sender_address = "Test Email <jerryjiang1128@gmail.com>"
+        sender_address = "TextToMail <tpcstld-sms@appspot.gserviceaccount.com>"
         subject = "Text to Mail"
-        body = email_body + "\n\nSent by: " + sender + " using TextToMail"
+        body = email_body + "\n\nSent from " + sender + " using TextToMail"
         mail.send_mail(sender_address, destination_address, subject, body)
-        return True
+        return "OK"
     except:
         logging.error(traceback.format_exc())
-        return False
+        return "Unknown Error"

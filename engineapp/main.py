@@ -13,13 +13,15 @@ def api_sms():
         sms_message = request.values.get("Body", None)
         sender = request.values.get("From", None)
         if sms_message is None or sender is None:
-            return render_template("sms_error.xml")
+            return render_template("sms_error.xml", reason="Invalid SMS message")
         try:
             destination_address, body = sms_message.split(' ', 1)
         except:
-            return render_template("sms_error.xml")
-        if not mailer.try_send_email(destination_address, sender, body):
-            return render_template("sms_error.xml")
+            return render_template("sms_error.xml", reason="Empty Email Body")
+
+        result = mailer.try_send_email(destination_address, sender, body)
+        if result != "OK":
+            return render_template("sms_error.xml", reason=result)
 
         return render_template("sms_success.xml", destination=destination_address)
     
