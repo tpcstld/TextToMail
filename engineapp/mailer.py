@@ -10,8 +10,8 @@ def try_send_email(destination_address, sender, email_body):
         if not "@" in destination_address:
             return "Invalid Destination Address \"" + destination_address +"\""
         
-        sender_address = "TextToMail <textbot@tpcstld-sms.appspotmail.com>"
-        subject = "Text to Mail"
+        sender_address = "Text To Mail <textbot@tpcstld-sms.appspotmail.com>"
+        subject = "Message from " + sender
         body = email_body + "\n\nSent from " + sender + " using TextToMail"
         mail.send_mail(sender_address, destination_address, subject, body)
         return "OK"
