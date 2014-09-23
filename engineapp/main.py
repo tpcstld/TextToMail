@@ -15,7 +15,7 @@ def api_sms():
         if sms_message is None or sender is None:
             return render_template("sms_error.xml", reason="Invalid SMS message")
         try:
-            destination_address, body = sms_message.split(' ', 1)
+            destination_address, body = sms_message.split(None, 1)
         except:
             return render_template("sms_error.xml", reason="Empty Email Body")
 
